@@ -76,6 +76,7 @@ def list_running_boxes():
 
     for line in output:
         #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
+        #matcher = re.search(r"([^\/]+$)",line)
         matcher = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
         if matcher:
             boxes.append(matcher.group(1))
@@ -111,13 +112,13 @@ if options.list:
     for host in ssh_config:
         meta['hostvars'][host] = ssh_config[host]
 
-    print(json.dumps({_group: list(ssh_config.keys()), '_meta': meta}))
+    print(json.dumps({_group: list(ssh_config.keys()), '_meta': meta},indent=4))
     sys.exit(0)
 
 # Get out the host details
 # ------------------------------
 elif options.host:
-    print(json.dumps(get_a_ssh_config(options.host)))
+    print(json.dumps(get_a_ssh_config(options.host),indent=4))
     sys.exit(0)
 
 # Print out help
