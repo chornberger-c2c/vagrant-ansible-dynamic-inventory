@@ -38,8 +38,6 @@ import io
 from ansible.module_utils._text import to_text
 from ansible.module_utils.six.moves import StringIO
 
-import sshconf
-from os.path import expanduser
 
 _group = 'vagrant'  # a default group
 _ssh_to_ansible = [('user', 'ansible_user'),
