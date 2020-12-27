@@ -7,5 +7,5 @@ Reads `vagrant global-status` to find running VMs and creates a dynamic inventor
 ansible -i vagrant-ansible-dynamic-inventory/vagrant-inventory.py --list-hosts all
 ansible -i vagrant-ansible-dynamic-inventory/vagrant-inventory.py -m ping all
 vagrant-ansible-dynamic-inventory/vagrant-inventory.py --list
-vagrant-ansible-dynamic-inventory/vagrant-inventory.py --host=abcdefgh
+vagrant-ansible-dynamic-inventory/vagrant-inventory.py --host=abcdefg
 ```
