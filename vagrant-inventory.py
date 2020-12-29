@@ -71,16 +71,22 @@ def list_running_boxes():
     output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
 
     boxes = []
+    names = []
 
     for line in output:
         #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
         #matcher = re.search(r"([^\/]+$)",line)
-        matcher = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
+        matchname = re.search(r"(running.+?)([^\/]+$)",line)
+        matcher   = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
         if matcher:
             boxes.append(matcher.group(1))
-    #print(boxes)
+        if matchname:
+            boxname = str(matchname.group(2))
+            boxname = boxname.strip()
+            names.append(boxname)
+    print(names)
     return boxes
-
+    #return boxes, names
 
 # get the ssh config for a single box
 def get_a_ssh_config(box_name):
