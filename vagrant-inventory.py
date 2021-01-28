@@ -1,21 +1,15 @@
 #!/usr/bin/env python
+
 """
 Vagrant external inventory script. Automatically finds the IP of the booted vagrant vm(s), and
-returns it under the host group 'vagrant'
-
-Example Vagrant configuration using this script:
-
-    config.vm.provision :ansible do |ansible|
-      ansible.playbook = "./provision/your_playbook.yml"
-      ansible.inventory_path = "./provision/inventory/vagrant.py"
-      ansible.verbose = true
-    end
-"""
+returns it under the host group 'vagrant' with the directory name as ansible hostname.
 
 # Copyright (C) 2013  Mark Mandel <mark@compoundtheory.com>
 #               2015  Igor Khomyakov <homyakov@gmail.com>
+                2021  Christopher Hornberger github.com/horni23
 #
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+"""
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
@@ -84,9 +78,71 @@ def list_running_boxes():
             boxname = str(matchname.group(2))
             boxname = boxname.strip()
             names.append(boxname)
-    print(names)
     return boxes
-    #return boxes, names
+
+def get_pretty_names(box_name):
+
+    output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
+
+    boxes = []
+    names = []
+
+    for line in output:
+        #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
+        #matcher = re.search(r"([^\/]+$)",line)
+        matchname = re.search(rf"({box_name}.*running.+?)([^\/]+$)",line)
+        matcher   = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
+        if matcher:
+            boxes.append(matcher.group(1))
+        if matchname:
+            boxname = str(matchname.group(2))
+            boxname = boxname.strip()
+            names.append(boxname)
+
+    return names
+
+def get_all_pretty_names():
+
+    output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
+
+    boxes = []
+    names = []
+
+    for line in output:
+        #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
+        #matcher = re.search(r"([^\/]+$)",line)
+        matchname = re.search(r"(running.+?)([^\/]+$)",line)
+        matcher   = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
+        if matcher:
+            boxes.append(matcher.group(1))
+        if matchname:
+            boxname = str(matchname.group(2))
+            boxname = boxname.strip()
+            names.append(boxname)
+
+    return names
+
+def get_box_name(pretty):
+
+    output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
+
+    boxes = []
+    names = []
+
+    for line in output:
+        #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
+        #matcher = re.search(r"([^\/]+$)",line)
+        matchname = re.search(r"(running.+?)([^\/]+$)",line)
+        matcher   = re.search(rf"^\s*([a-zA-Z0-9]+).*running.*{pretty}",line)
+        if matcher:
+            boxes.append(matcher.group(1))
+        if matchname:
+            boxname = str(matchname.group(2))
+            boxname = boxname.strip()
+            names.append(boxname)
+
+    return boxes
+
 
 # get the ssh config for a single box
 def get_a_ssh_config(box_name):
@@ -110,19 +166,27 @@ def get_a_ssh_config(box_name):
 # List out servers that vagrant has running
 # ------------------------------
 if options.list:
-    ssh_config = get_ssh_config()
+    ssh_config   = get_ssh_config()
+
     meta = defaultdict(dict)
 
     for host in ssh_config:
-        meta['hostvars'][host] = ssh_config[host]
+        pretty_name = str(get_pretty_names(host))
+        pretty_name = pretty_name.strip("[]")
+        pretty_name = pretty_name.strip("\'")
+        meta['hostvars'][pretty_name] = ssh_config[host]
 
-    print(json.dumps({_group: list(ssh_config.keys()), '_meta': meta},indent=4))
+    #print(json.dumps({_group: list(ssh_config.keys()), '_meta': meta},indent=4))
+    print(json.dumps({_group: list(get_all_pretty_names()), '_meta': meta},indent=4))
     sys.exit(0)
 
 # Get out the host details
 # ------------------------------
 elif options.host:
-    print(json.dumps(get_a_ssh_config(options.host),indent=4))
+    host = str(get_box_name(options.host))
+    host = host.strip("[]")
+    host = host.strip("\'")
+    print(json.dumps(get_a_ssh_config(host),indent=4))
     sys.exit(0)
 
 # Print out help
