@@ -62,7 +62,7 @@ def get_ssh_config():
 # list all the running boxes
 def list_running_boxes():
 
-    output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
+    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
 
     boxes = []
     names = []
@@ -82,7 +82,7 @@ def list_running_boxes():
 
 def get_pretty_names(box_name):
 
-    output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
+    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
 
     boxes = []
     names = []
@@ -103,7 +103,7 @@ def get_pretty_names(box_name):
 
 def get_all_pretty_names():
 
-    output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
+    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
 
     boxes = []
     names = []
@@ -124,7 +124,7 @@ def get_all_pretty_names():
 
 def get_box_name(pretty):
 
-    output = to_text(subprocess.check_output(["vagrant", "global-status"]), errors='surrogate_or_strict').split('\n')
+    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
 
     boxes = []
     names = []
