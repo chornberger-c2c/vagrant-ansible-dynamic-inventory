@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Vagrant external inventory script. Automatically finds the IP of the booted vagrant vm(s), and
