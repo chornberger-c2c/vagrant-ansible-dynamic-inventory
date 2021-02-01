@@ -52,97 +52,26 @@ parser.add_option('--host', default=None, dest="host",
 #
 # helper functions
 #
-
-
 # get all the ssh configs for all boxes in an array of dictionaries.
-def get_ssh_config():
-    return dict((k, get_a_ssh_config(k)) for k in list_running_boxes())
-
-
 # list all the running boxes
-def list_running_boxes():
 
-    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
+output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
 
-    boxes = []
-    names = []
+boxes = []
+names = []
+mapping = {}
 
-    for line in output:
-        #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
-        #matcher = re.search(r"([^\/]+$)",line)
-        matchname = re.search(r"(running.+?)([^\/]+$)",line)
-        matcher   = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
-        if matcher:
-            boxes.append(matcher.group(1))
-        if matchname:
-            boxname = str(matchname.group(2))
-            boxname = boxname.strip()
-            names.append(boxname)
-    return boxes
+for line in output:
+    matchname = re.search(r"(running.+?)([^\/]+$)",line)
+    matcher   = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
+    if matcher and matchname:
+        boxes = str(matcher.group(1))
+        boxname = str(matchname.group(2))
+        boxname = boxname.strip()
+        mapping[boxes] = boxname
 
-def get_pretty_names(box_name):
-
-    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
-
-    boxes = []
-    names = []
-
-    for line in output:
-        #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
-        #matcher = re.search(r"([^\/]+$)",line)
-        matchname = re.search(rf"({box_name}.*running.+?)([^\/]+$)",line)
-        matcher   = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
-        if matcher:
-            boxes.append(matcher.group(1))
-        if matchname:
-            boxname = str(matchname.group(2))
-            boxname = boxname.strip()
-            names.append(boxname)
-
-    return names
-
-def get_all_pretty_names():
-
-    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
-
-    boxes = []
-    names = []
-
-    for line in output:
-        #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
-        #matcher = re.search(r"([^\/]+$)",line)
-        matchname = re.search(r"(running.+?)([^\/]+$)",line)
-        matcher   = re.search(r"^\s*([a-zA-Z0-9]+).*running",line)
-        if matcher:
-            boxes.append(matcher.group(1))
-        if matchname:
-            boxname = str(matchname.group(2))
-            boxname = boxname.strip()
-            names.append(boxname)
-
-    return names
-
-def get_box_name(pretty):
-
-    output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"]), errors='surrogate_or_strict').split('\n')
-
-    boxes = []
-    names = []
-
-    for line in output:
-        #matcher = re.search(r"([^\s]+)[\s]+running \(.+", line)
-        #matcher = re.search(r"([^\/]+$)",line)
-        matchname = re.search(r"(running.+?)([^\/]+$)",line)
-        matcher   = re.search(rf"^\s*([a-zA-Z0-9]+).*running.*{pretty}",line)
-        if matcher:
-            boxes.append(matcher.group(1))
-        if matchname:
-            boxname = str(matchname.group(2))
-            boxname = boxname.strip()
-            names.append(boxname)
-
-    return boxes
-
+def get_ssh_config():
+    return dict((k, get_a_ssh_config(k)) for k in mapping)
 
 # get the ssh config for a single box
 def get_a_ssh_config(box_name):
@@ -167,23 +96,21 @@ def get_a_ssh_config(box_name):
 # ------------------------------
 if options.list:
     ssh_config   = get_ssh_config()
-
+    list_names = []
     meta = defaultdict(dict)
 
     for host in ssh_config:
-        pretty_name = str(get_pretty_names(host))
-        pretty_name = pretty_name.strip("[]")
-        pretty_name = pretty_name.strip("\'")
+        pretty_name = mapping[host].strip()
+        pretty_name = str(pretty_name)
         meta['hostvars'][pretty_name] = ssh_config[host]
 
-    #print(json.dumps({_group: list(ssh_config.keys()), '_meta': meta},indent=4))
-    print(json.dumps({_group: list(get_all_pretty_names()), '_meta': meta},indent=4))
+    print(json.dumps({_group: list(mapping.values()), '_meta': meta}, indent=4))
     sys.exit(0)
 
 # Get out the host details
 # ------------------------------
 elif options.host:
-    host = str(get_box_name(options.host))
+    host = list(mapping.keys())[list(mapping.values()).index(options.host)]
     host = host.strip("[]")
     host = host.strip("\'")
     print(json.dumps(get_a_ssh_config(host),indent=4))
@@ -194,4 +121,3 @@ elif options.host:
 else:
     parser.print_help()
     sys.exit(0)
-
