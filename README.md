@@ -15,3 +15,8 @@ ansible -i vagrant-ansible-dynamic-inventory/vagrant-inventory.py -m ping all
 vagrant-ansible-dynamic-inventory/vagrant-inventory.py --list
 vagrant-ansible-dynamic-inventory/vagrant-inventory.py --host=abcdefg
 ```
+
+Might be useful to disable strict host key checking before:
+```
+export ANSIBLE_HOST_KEY_CHECKING=False
+```
