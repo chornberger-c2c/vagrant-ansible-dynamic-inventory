@@ -19,11 +19,3 @@ jobs:
           use-black: false
           use-mypy: false
           use-isort: false
-      - name: pycodestyle
-        uses: ricardochaves/python-lint@v1.3.0
-        with:
-          use-pylint: false
-          use-flake8: false
-          use-black: false
-          use-mypy: false
-          use-isort: false
