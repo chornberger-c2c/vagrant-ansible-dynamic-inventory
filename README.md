@@ -3,7 +3,7 @@
 This is a fork from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py with some modifications to work with newer Vagrant releases. 
 
 
-Basically this an Ansible dynamic inventory for Vagrant boxes.
+Basically this is an Ansible dynamic inventory for Vagrant boxes.
 
 
 Changes include:
