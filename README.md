@@ -1,3 +1,5 @@
+[![linting](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml/badge.svg)](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml)
+
 This is a fork from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py with some modifications to work with newer Vagrant releases. 
 
 
