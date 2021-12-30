@@ -17,7 +17,6 @@ ansible -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py --list-hosts a
 ansible -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py -m ping all
 vagrant-ansible-dynamic-inventory/vagrant_inventory.py --list
 vagrant-ansible-dynamic-inventory/vagrant_inventory.py --host CentOS8-1
-
 ```
 
 Might be useful to disable strict host key checking before:
@@ -32,5 +31,5 @@ ansible-playbook -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py updat
 
 Running a playbook against a limited amount of running Vagrant boxes:
 ```
-ansible-playbook -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py update.yml --limit CentOS8-1
+ansible-playbook -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py --limit CentOS8-1 update.yml
 ```
