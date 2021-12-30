@@ -29,7 +29,6 @@ import json
 from collections import defaultdict
 from io import StringIO
 from ansible.module_utils._text import to_text
-#from ansible.module_utils.six.moves import StringIO
 from paramiko import SSHConfig
 
 MetaClass = type
