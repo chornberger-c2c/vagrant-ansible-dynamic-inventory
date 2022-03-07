@@ -35,3 +35,8 @@ Running a playbook against a limited amount of running Vagrant boxes:
 ```
 ansible-playbook -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py --limit CentOS8-1 update.yml
 ```
+
+Using a custom inventory plugin:
+````
+export ANSIBLE_INVENTORY_PLUGINS=/home/horni/src/vagrant-ansible-dynamic-inventory/inventory_plugins
+```
