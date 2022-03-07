@@ -37,6 +37,6 @@ ansible-playbook -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py --lim
 ```
 
 Using a custom inventory plugin:
-````
+```
 export ANSIBLE_INVENTORY_PLUGINS=/home/horni/src/vagrant-ansible-dynamic-inventory/inventory_plugins
 ```
