@@ -18,7 +18,7 @@ This is an Ansible dynamic inventory for Vagrant boxes, forked from https://gith
 - readability
     - the hostname `ansible_host` is the directory name where the Vagrantfile is located
     - to distinguish the hosts
-    - to limit the connection to one or more specific hosts
+    - to be able to limit the connection to one or more specified hosts
 
 ## Settings
 Need to disable strict host key checking
