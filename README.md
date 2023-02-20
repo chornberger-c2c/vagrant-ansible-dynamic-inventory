@@ -1,5 +1,12 @@
 [![linting](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml/badge.svg)](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml)
 
+# Vagrant Ansible Dynamic Inventory
+1. [Origin](#origin)
+2. [New features](#new-features)
+3. [Settings](#settings)
+4. [Host discovery](#host-discovery)
+5. [Running a playbook](#running-a-playbook)
+
 
 ## Origin
 This is an Ansible dynamic inventory for Vagrant boxes, forked from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py
