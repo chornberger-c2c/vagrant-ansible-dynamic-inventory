@@ -12,7 +12,7 @@ This is an [Ansible dynamic inventory](https://docs.ansible.com/ansible/latest/i
 
 ## New features
 - scalability
-    - no need to manually edit and maintain Ansible inventories any more if you run one or more Vagrant VMs 
+    - no need to manually edit and maintain Ansible inventories if you run one or more Vagrant VMs 
     - all running Vagrant VMs are included (by parsing `vagrant global-status --prune`)
     - connection parameters are automatically added for all running VMs
 - readability
