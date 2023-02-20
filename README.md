@@ -17,7 +17,7 @@ This is an [Ansible dynamic inventory](https://docs.ansible.com/ansible/latest/i
     - connection parameters are automatically added for all running VMs
 - readability
     - the hostname `ansible_host` is the directory name where the Vagrantfile is located
-    - to distinguish the hosts and to limit the connection to specific hosts, if needed
+    - to distinguish the hosts and to be able to limit the connection to specific hosts only
 
 ## Settings
 Need to disable strict host key checking
