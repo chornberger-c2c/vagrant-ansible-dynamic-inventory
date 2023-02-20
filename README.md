@@ -5,8 +5,11 @@
 2. [New features](#new-features)
 3. [Settings](#settings)
 4. [Host discovery](#host-discovery)
+    1. [list running Vagrant VMs](#list-running-vagrant-vms-for-comparison-only)
+    2. [Ansible host discovery](#ansible-host-discovery)
 5. [Running a playbook](#running-a-playbook)
-
+    1. [all running Vagrant VMs](#all-running-vagrant-vms)
+    2. [limited amount of running Vagrant VMs](#limited-amount-of-running-vagrant-vms)
 
 ## Origin
 This is an Ansible dynamic inventory for Vagrant boxes, forked from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py
@@ -105,12 +108,12 @@ vagrant_inventory.py --host vm_debian9
 
 ## Running a playbook 
 
-### against all running Vagrant boxes
+### all running Vagrant VMs
 ```
 ansible-playbook -i vagrant_inventory.py site.yml
 ```
 
-### against a limited amount of running Vagrant boxes
+### limited amount of running Vagrant VMs
 ```
 ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
 ```
