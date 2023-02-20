@@ -45,6 +45,7 @@ a524819  default virtualbox running  /home/user/workspace/vagrant/vm_centos8_3
   - host
   - user
   - ssh private key
+- their hostname comes from the directory in which the Vagrantfile is located
 ```
 ansible -i vagrant_inventory.py --list-hosts all 
   hosts (2):
