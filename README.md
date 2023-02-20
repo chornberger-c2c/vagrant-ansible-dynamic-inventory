@@ -5,23 +5,21 @@
 2. [New features](#new-features)
 3. [Settings](#settings)
 4. [Host discovery](#host-discovery)
-    1. [list running Vagrant VMs](#list-running-vagrant-vms-for-comparison-only)
-    2. [Ansible host discovery](#ansible-host-discovery)
 5. [Running a playbook](#running-a-playbook)
-    1. [against all running Vagrant VMs](#against-all-running-vagrant-vms)
-    2. [against a limited amount of running Vagrant VMs](#against-a-limited-amount-of-running-vagrant-vms)
 
 ## Origin
-This is an Ansible dynamic inventory for Vagrant boxes, forked from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py
+This is an Ansible dynamic inventory for Vagrant boxes, forked from https://github.com/ansible-community/contrib-scripts/blob/main/inventory/vagrant.py
 
 ## New features
-- no need to manually edit and maintain Ansible inventories any more if you run one or more Vagrant VMs 
-
-- all running VMs are reachable (by reading `vagrant global-status --prune`)
-
-- connection parameters are automatically added
-
-- the hostname `ansible_host` is the directory name where the Vagrantfile is located
+- scalability
+    - no need to manually edit and maintain Ansible inventories any more if you run one or more Vagrant VMs 
+    - all running VMs are reachable (by reading `vagrant global-status --prune`)
+- connectivity
+    - connection parameters are automatically added
+    - for all running VMs
+- readability
+    - the hostname `ansible_host` is the directory name where the Vagrantfile is located
+    - to distinguish the hosts
 
 ## Settings
 Need to disable strict host key checking
@@ -31,7 +29,7 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 
 ## Host discovery
 
-### list running Vagrant VMs (for comparison only)
+### list running Vagrant VMs (for reference only)
 ```
 vagrant global-status --prune | grep running
 a524819  default virtualbox running  /home/user/workspace/vagrant/vm_centos8_3            
@@ -109,12 +107,12 @@ vagrant_inventory.py --host vm_debian9
 
 ## Running a playbook 
 
-### against all running Vagrant VMs
+- against all running Vagrant VMs
 ```
 ansible-playbook -i vagrant_inventory.py site.yml
 ```
 
-### against a limited amount of running Vagrant VMs
+- against a limited set of running Vagrant VMs
 ```
 ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
 ```
