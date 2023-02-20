@@ -14,12 +14,11 @@ This is an Ansible dynamic inventory for Vagrant boxes, forked from https://gith
 - scalability
     - no need to manually edit and maintain Ansible inventories any more if you run one or more Vagrant VMs 
     - all running VMs are reachable (by reading `vagrant global-status --prune`)
-- connectivity
-    - connection parameters are automatically added
-    - for all running VMs
+    - connection parameters are automatically added for all VMs
 - readability
     - the hostname `ansible_host` is the directory name where the Vagrantfile is located
     - to distinguish the hosts
+    - to limit the connection to one or more specific hosts
 
 ## Settings
 Need to disable strict host key checking
