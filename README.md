@@ -1,37 +1,91 @@
 [![linting](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml/badge.svg)](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml)
 
-This is a fork from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py with some modifications to work with newer Vagrant releases. 
 
+## Origin
+This is an Ansible dynamic inventory for Vagrant boxes, forked from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py
 
-Basically this is an Ansible dynamic inventory for Vagrant boxes.
+## New features
 
+- the hostname `ansible_host` is the directory name where the Vagrantfile exists
 
-Changes include:
+- all running VMs are reachable without setting connection parameters (by reading `vagrant global-status --prune`)
 
-- the directory name where the Vagrantfile lies is used as `ansible_host`
-
-- reads `vagrant global-status --prune` to find all VMs that are currently running
-
-
-Host discovery:
-```
-ansible -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py --list-hosts all
-ansible -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py -m ping all
-vagrant-ansible-dynamic-inventory/vagrant_inventory.py --list
-vagrant-ansible-dynamic-inventory/vagrant_inventory.py --host CentOS8-1
-```
-
-Might be useful to disable strict host key checking before:
+## Settings
+Need to disable strict host key checking
 ```
 export ANSIBLE_HOST_KEY_CHECKING=False
 ```
 
-Running a playbook against all running Vagrant boxes:
+## Host discovery
 ```
-ansible-playbook -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py update.yml
+ansible -i vagrant_inventory.py --list-hosts all 
+  hosts (2):
+    vm_debian9
+    vm_centos8_3
 ```
 
-Running a playbook against a limited amount of running Vagrant boxes:
+```shell
+ansible -i vagrant_inventory.py -m ping all
+vm_debian9 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vm_centos8_3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
 ```
-ansible-playbook -i vagrant-ansible-dynamic-inventory/vagrant_inventory.py --limit CentOS8-1 update.yml
+
+```
+vagrant_inventory.py --list                  
+{
+    "vagrant": [
+        "vm_debian9", 
+        "vm_centos8_3"
+    ], 
+    "_meta": {
+        "hostvars": {
+            "vm_centos8_3": {
+                "ansible_port": "2222", 
+                "ansible_host": "127.0.0.1", 
+                "ansible_user": "vagrant", 
+                "ansible_private_key_file": "/home/user/workspace/vagrant/vm_centos8_3/.vagrant/machines/default/virtualbox/private_key"
+            }, 
+            "vm_debian9": {
+                "ansible_port": "2200", 
+                "ansible_host": "127.0.0.1", 
+                "ansible_user": "vagrant", 
+                "ansible_private_key_file": "/home/user/workspace/vagrant/vm_debian9/.vagrant/machines/default/virtualbox/private_key"
+            }
+        }
+    }
+}
+```
+
+```
+vagrant_inventory.py --host vm_debian9        
+{
+    "ansible_port": "2200", 
+    "ansible_host": "127.0.0.1", 
+    "ansible_user": "vagrant", 
+    "ansible_private_key_file": "/home/user/workspace/vagrant/vm_debian9/.vagrant/machines/default/virtualbox/private_key"
+}
+```
+
+## Running a playbook 
+
+### against all running Vagrant boxes:
+```
+ansible-playbook -i vagrant_inventory.py site.yml
+```
+
+### against a limited amount of running Vagrant boxes:
+```
+ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
 ```
