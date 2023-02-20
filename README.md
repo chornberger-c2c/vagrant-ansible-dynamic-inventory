@@ -8,7 +8,7 @@
 5. [Running a playbook](#running-a-playbook)
 
 ## Origin
-This is an Ansible dynamic inventory for Vagrant boxes, forked from https://github.com/ansible-community/contrib-scripts/blob/main/inventory/vagrant.py
+This is an [Ansible dynamic inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_dynamic_inventory.html) for Vagrant boxes, forked from https://github.com/ansible-community/contrib-scripts/blob/main/inventory/vagrant.py
 
 ## New features
 - scalability
