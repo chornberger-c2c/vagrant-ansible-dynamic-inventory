@@ -35,13 +35,13 @@ a524819  default virtualbox running  /home/user/workspace/vagrant/vm_centos8_3
 ```
 
 ### Ansible host discovery
-- running hosts appear automatically in the dynamic inventory
-- including their ssh connection parameters 
+- all running Vagrant hosts appear automatically in the dynamic inventory
+- with all ssh connection parameters 
   - port
   - host
   - user
   - ssh private key
-- their hostname comes from the directory in which the Vagrantfile is located
+- the hostname comes from the directory in which the Vagrantfile is located
 ```
 ansible -i vagrant_inventory.py --list-hosts all 
   hosts (2):
