@@ -7,7 +7,11 @@ This is an Ansible dynamic inventory for Vagrant boxes, forked from https://gith
 ## New features
 - the hostname `ansible_host` is the directory name where the Vagrantfile is located
 
-- all running VMs are reachable without setting connection parameters (by reading `vagrant global-status --prune`)
+- all running VMs are reachable (by reading `vagrant global-status --prune`)
+
+- connection parameters are automatically added
+
+- no need to manually edit and maintain Ansible inventories any more if you run one or more Vagrant VMs 
 
 ## Settings
 Need to disable strict host key checking
@@ -16,6 +20,21 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 ```
 
 ## Host discovery
+
+### list running Vagrant VMs (for comparison only)
+```
+vagrant global-status | grep running
+a524819  default virtualbox running  /home/user/workspace/vagrant/vm_centos8_3            
+70bf4ac  default virtualbox running  /home/user/workspace/vagrant/vm_debian9              
+```
+
+### Ansible host discovery
+- running hosts appear automatically in the dynamic inventory
+- including their ssh connection parameters 
+  - port
+  - host
+  - user
+  - ssh private key
 ```
 ansible -i vagrant_inventory.py --list-hosts all 
   hosts (2):
@@ -23,7 +42,7 @@ ansible -i vagrant_inventory.py --list-hosts all
     vm_centos8_3
 ```
 
-```shell
+```
 ansible -i vagrant_inventory.py -m ping all
 vm_debian9 | SUCCESS => {
     "ansible_facts": {
@@ -79,12 +98,12 @@ vagrant_inventory.py --host vm_debian9
 
 ## Running a playbook 
 
-**against all running Vagrant boxes**
+- against all running Vagrant boxes
 ```
 ansible-playbook -i vagrant_inventory.py site.yml
 ```
 
-**against a limited amount of running Vagrant boxes**
+- against a limited amount of running Vagrant boxes
 ```
 ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
 ```
