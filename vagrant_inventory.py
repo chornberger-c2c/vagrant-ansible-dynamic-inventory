@@ -7,7 +7,7 @@ directory name as ansible inventory hostname.
 
 # Copyright (C) 2013  Mark Mandel <mark@compoundtheory.com>
 #               2015  Igor Khomyakov <homyakov@gmail.com>
-#               2021  Christopher Hornberger github.com/horni23
+#               2021  Christopher Hornberger github.com/chornberger-c2c
 #
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 """
