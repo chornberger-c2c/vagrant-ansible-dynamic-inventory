@@ -5,7 +5,7 @@
 This is an Ansible dynamic inventory for Vagrant boxes, forked from https://github.com/ansible-collections/community.general/blob/main/scripts/inventory/vagrant.py
 
 ## New features
-- the hostname `ansible_host` is the directory name where the Vagrantfile exists
+- the hostname `ansible_host` is the directory name where the Vagrantfile is located
 
 - all running VMs are reachable without setting connection parameters (by reading `vagrant global-status --prune`)
 
