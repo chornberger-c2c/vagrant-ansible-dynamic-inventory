@@ -79,12 +79,12 @@ vagrant_inventory.py --host vm_debian9
 
 ## Running a playbook 
 
-### against all running Vagrant boxes:
+**against all running Vagrant boxes:**
 ```
 ansible-playbook -i vagrant_inventory.py site.yml
 ```
 
-### against a limited amount of running Vagrant boxes:
+**against a limited amount of running Vagrant boxes:**
 ```
 ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
 ```
