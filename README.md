@@ -2,13 +2,21 @@
 
 # Vagrant Ansible Dynamic Inventory
 1. [Origin](#origin)
-2. [New features](#new-features)
-3. [Settings](#settings)
-4. [Host discovery](#host-discovery)
-5. [Running a playbook](#running-a-playbook)
+2. [Breaking changes](#breaking-changes)
+3. [New features](#new-features)
+4. [Settings](#settings)
+5. [Host discovery](#host-discovery)
+6. [Running a playbook](#running-a-playbook)
 
 ## Origin
 This is an [Ansible dynamic inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_dynamic_inventory.html) for Vagrant boxes, forked from https://github.com/ansible-community/contrib-scripts/blob/main/inventory/vagrant.py
+
+## Breaking changes
+This inventory script is not backwards compatible with the original version.
+
+It is not intended to do a one-time provisioning with Ansible when you create a VM with Vagrant, as the original version does this very well.
+
+Instead the main feature is the ability to configure already existing Vagrant VMs at a scale.
 
 ## New features
 - scalability
