@@ -35,7 +35,7 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 
 And also install requirements
 ```
-pip install -r requirements
+pip install -r requirements.txt
 ```
 
 ## Host discovery
