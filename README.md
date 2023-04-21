@@ -33,6 +33,11 @@ Need to disable strict host key checking
 export ANSIBLE_HOST_KEY_CHECKING=False
 ```
 
+And also install requirements
+```
+pip install -r requirements
+```
+
 ## Host discovery
 
 ### list running Vagrant VMs (for reference only)
