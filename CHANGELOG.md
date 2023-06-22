@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.2.1...v0.3.0) (2023-06-22)
+
+
+### Features
+
+* install anisble requirement ([e26be95](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/e26be95b1b388d772da59ea757e20fd4f1d6d5cb))
+
 ### [0.2.1](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.2.0...v0.2.1) (2023-04-21)
 
 
