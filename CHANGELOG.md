@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.1](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.3.0...v0.3.1) (2023-09-16)
+
+
+### Bug Fixes
+
+* **python:** use python3 ([47f36fc](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/47f36fc0398c0916e1e4c7eda28cd24611a5823a))
+
 ## [0.3.0](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.2.1...v0.3.0) (2023-06-22)
 
 
