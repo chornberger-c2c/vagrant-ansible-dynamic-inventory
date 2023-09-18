@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.3.1...v0.4.0) (2023-09-18)
+
+
+### Features
+
+* **docs:** refactor README.md ([0001b12](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/0001b1260a7cac6ffdbda2447a0973e9ca67b15d))
+
 ### [0.3.1](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.3.0...v0.3.1) (2023-09-16)
 
 
