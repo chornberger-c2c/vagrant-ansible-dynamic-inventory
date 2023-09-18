@@ -1,13 +1,38 @@
 [![linting](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml/badge.svg)](https://github.com/horni23/vagrant-ansible-dynamic-inventory/actions/workflows/lint.yaml)
 
 # Vagrant Ansible Dynamic Inventory
-1. [Origin](#origin)
-2. [Breaking changes](#breaking-changes)
-3. [New features](#new-features)
-4. [Settings](#settings)
-5. [Host discovery](#host-discovery)
-6. [Running a playbook](#running-a-playbook)
+1. [Setup](#setup)
+2. [Running an Ansible playbook](#running-a-playbook)
+3. [Origin](#origin)
+4. [Breaking changes](#breaking-changes)
+5. [New features](#new-features)
+6. [Host discovery](#host-discovery)
 
+## Setup
+Install requirements
+```
+pip install -r requirements.txt
+```
+Disable strict host key checking
+```
+export ANSIBLE_HOST_KEY_CHECKING=False
+```
+Ping Vagrant VMs
+```
+ansible -i vagrant_inventory.py -m ping all
+```
+
+## Running an Ansible playbook
+
+- against all running Vagrant VMs
+```
+ansible-playbook -i vagrant_inventory.py site.yml
+```
+
+- against a limited set of running Vagrant VMs
+```
+ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
+```
 ## Origin
 This is an [Ansible dynamic inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_dynamic_inventory.html) for Vagrant boxes, forked from https://github.com/ansible-community/contrib-scripts/blob/main/inventory/vagrant.py
 
@@ -27,16 +52,6 @@ Instead the main feature is the ability to configure already existing Vagrant VM
     - the hostname `ansible_host` is the directory name where the Vagrantfile is located
     - to distinguish the hosts and to be able to limit the connection to specific hosts only
 
-## Settings
-Need to disable strict host key checking
-```
-export ANSIBLE_HOST_KEY_CHECKING=False
-```
-
-And also install requirements
-```
-pip install -r requirements.txt
-```
 
 ## Host discovery
 
@@ -114,16 +129,4 @@ vagrant_inventory.py --host vm_debian9
     "ansible_user": "vagrant", 
     "ansible_private_key_file": "/home/user/workspace/vagrant/vm_debian9/.vagrant/machines/default/virtualbox/private_key"
 }
-```
-
-## Running a playbook 
-
-- against all running Vagrant VMs
-```
-ansible-playbook -i vagrant_inventory.py site.yml
-```
-
-- against a limited set of running Vagrant VMs
-```
-ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
 ```
