@@ -34,7 +34,7 @@ ansible-playbook -i vagrant_inventory.py site.yml
 ansible-playbook -i vagrant_inventory.py --limit vm_debian9 site.yml
 ```
 ## Origin
-This is an [Ansible dynamic inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_dynamic_inventory.html) for Vagrant boxes, forked from https://github.com/ansible-community/contrib-scripts/blob/main/inventory/vagrant.py
+This is an [Ansible dynamic inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_dynamic_inventory.html) for [Vagrant](https://www.vagrantup.com/) [boxes](https://app.vagrantup.com/boxes/search), forked from https://github.com/ansible-community/contrib-scripts/blob/main/inventory/vagrant.py
 
 ## Breaking changes
 This inventory script is not backwards compatible with the original version.
