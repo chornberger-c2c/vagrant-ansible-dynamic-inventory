@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.4.1](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.4.0...v0.4.1) (2023-09-18)
+
+
+### Bug Fixes
+
+* **docs:** broken link ([aef8083](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/aef808324f44aab0cb4c3c301c18433926d15a23))
+
 ## [0.4.0](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.3.1...v0.4.0) (2023-09-18)
 
 
