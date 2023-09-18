@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.4.1...v0.5.0) (2023-09-18)
+
+
+### Features
+
+* **docs:** add links for Vagrant ([6f888f1](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/6f888f1d329939f3b14ec9777e36b6ff7e21469d))
+
 ### [0.4.1](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.4.0...v0.4.1) (2023-09-18)
 
 
