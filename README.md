@@ -2,7 +2,7 @@
 
 # Vagrant Ansible Dynamic Inventory
 1. [Setup](#setup)
-2. [Running an Ansible playbook](#running-a-playbook)
+2. [Running an Ansible playbook](#running-an-ansible-playbook)
 3. [Origin](#origin)
 4. [Breaking changes](#breaking-changes)
 5. [New features](#new-features)
