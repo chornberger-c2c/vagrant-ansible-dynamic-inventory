@@ -130,8 +130,8 @@ if options.list:
 # ------------------------------
 elif options.host:
     list_running_boxes()
-    id = list(mapping.keys())[list(mapping.values()).index(options.host)]
-    print(json.dumps(get_a_ssh_config(id,options.host), indent=4))
+    host_id = list(mapping.keys())[list(mapping.values()).index(options.host)]
+    print(json.dumps(get_a_ssh_config(host_id,options.host), indent=4))
     sys.exit(0)
 
 # Print out help
