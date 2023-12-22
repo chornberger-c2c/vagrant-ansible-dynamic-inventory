@@ -3,7 +3,7 @@
 """
 Vagrant external inventory script. Automatically finds the IP of the booted
 vagrant vm(s), and returns it under the host group 'vagrant' with either the
-machine name or - if set to default - the directory name of the Vagrantfile 
+machine name or - if set to default - the directory name of the Vagrantfile
 as ansible inventory hostname.
 
 # Copyright (C) 2013  Mark Mandel <mark@compoundtheory.com>
@@ -130,8 +130,8 @@ if options.list:
 # ------------------------------
 elif options.host:
     list_running_boxes()
-    box_id = list(mapping.keys())[list(mapping.values()).index(options.host)]
-    print(json.dumps(get_a_ssh_config(box_id,options.host), indent=4))
+    id = list(mapping.keys())[list(mapping.values()).index(options.host)]
+    print(json.dumps(get_a_ssh_config(id,options.host), indent=4))
     sys.exit(0)
 
 # Print out help
