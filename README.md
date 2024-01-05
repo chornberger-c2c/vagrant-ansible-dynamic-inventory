@@ -49,7 +49,8 @@ Instead the main feature is the ability to configure already existing Vagrant VM
     - all running Vagrant VMs are included (by parsing `vagrant global-status --prune`)
     - connection parameters are automatically added for all running VMs
 - readability
-    - the hostname `ansible_host` is the directory name where the Vagrantfile is located
+    - if defined in the `Vagrantfile`, the specified VM name is used as `ansible_host`
+    - if not defined in the `Vagrantfile` the hostname `ansible_host` is the directory name where the Vagrantfile is located
     - to distinguish the hosts and to be able to limit the connection to specific hosts only
 
 
