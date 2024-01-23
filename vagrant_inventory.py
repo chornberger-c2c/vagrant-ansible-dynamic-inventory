@@ -2,8 +2,9 @@
 
 """
 Vagrant external inventory script. Automatically finds the IP of the booted
-vagrant vm(s), and returns it under the host group 'vagrant' with the
-directory name as ansible inventory hostname.
+vagrant vm(s), and returns it under the host group 'vagrant' with either the
+machine name or - if set to default - the directory name of the Vagrantfile
+as ansible inventory hostname.
 
 # Copyright (C) 2013  Mark Mandel <mark@compoundtheory.com>
 #               2015  Igor Khomyakov <homyakov@gmail.com>
@@ -63,33 +64,43 @@ def list_running_boxes():
     """
     output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"])).split('\n')
 
-    boxes = []
-
     for line in output:
-        matchname = re.search(r"(running.+?)([^\/]+$)", line)
-        matcher = re.search(r"^\s*([a-zA-Z0-9]+).*running", line)
-        if matcher and matchname:
-            boxes = str(matcher.group(1))
-            boxname = str(matchname.group(2))
-            boxname = boxname.strip()
-            mapping[boxes] = boxname
+        match = re.search(r"^([a-zA-Z0-9]+)\s+([a-zA-Z0-9\-\_]+).*(running).+?([^\/]+$)", line)
+        if match:
+            box_id = str(match.group(1))
+            box_name = str(match.group(2))
+            box_up = str(match.group(3))
+            box_dir = str(match.group(4)).strip()
 
+            if box_name == "default":
+                pretty_box_name = box_dir
+
+            else:
+                pretty_box_name = box_name
+
+            if box_up == "running":
+                mapping[box_id] = pretty_box_name
 
 def get_ssh_config():
     """
     returns the ssh config for a box
     """
-    return dict((k, get_a_ssh_config(k)) for k in mapping)
+
+    return dict((v, get_a_ssh_config(k,v)) for k,v in mapping.items())
 
 
 # get the ssh config for a single box
-def get_a_ssh_config(box_name):
+def get_a_ssh_config(box_id,box_name):
     """Gives back a map of all the machine's ssh configurations"""
 
-    output = to_text(subprocess.check_output(["vagrant", "ssh-config", box_name]))
+    output = to_text(subprocess.check_output(["vagrant", "ssh-config", box_id]))
     config = SSHConfig()
     config.parse(StringIO(output))
-    host_config = config.lookup("default")
+
+    host_config = config.lookup(box_name)
+
+    if len(host_config) == 1:
+        host_config = config.lookup('default')
 
     # man 5 ssh_config:
     # > It is possible to have multiple identity files ...
@@ -110,9 +121,7 @@ if options.list:
     meta = defaultdict(dict)
 
     for host in ssh_config:
-        pretty_name = mapping[host].strip()
-        PRETTY_NAME = str(pretty_name)
-        meta['hostvars'][PRETTY_NAME] = ssh_config[host]
+        meta['hostvars'][host] = ssh_config[host]
 
     print(json.dumps({_GROUP: list(mapping.values()), '_meta': meta}, indent=4))
     sys.exit(0)
@@ -121,8 +130,8 @@ if options.list:
 # ------------------------------
 elif options.host:
     list_running_boxes()
-    host = list(mapping.keys())[list(mapping.values()).index(options.host)]
-    print(json.dumps(get_a_ssh_config(host), indent=4))
+    host_id = list(mapping.keys())[list(mapping.values()).index(options.host)]
+    print(json.dumps(get_a_ssh_config(host_id,options.host), indent=4))
     sys.exit(0)
 
 # Print out help
