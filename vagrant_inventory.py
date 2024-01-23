@@ -65,7 +65,7 @@ def list_running_boxes():
     output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"])).split('\n')
 
     for line in output:
-        match = re.search(r"^([a-zA-Z0-9]+)\s+([a-zA-Z0-9]+).*(running).+?([^\/]+$)", line)
+        match = re.search(r"^([a-zA-Z0-9]+)\s+([a-zA-Z0-9\-\_]+).*(running).+?([^\/]+$)", line)
         if match:
             box_id = str(match.group(1))
             box_name = str(match.group(2))
