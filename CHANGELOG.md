@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.6.1](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.6.0...v0.6.1) (2024-01-23)
+
+
+### Bug Fixes
+
+* extend regex for vm name ([c128be6](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/c128be6d2393b21658ff7c20d6d908b80f88d52a))
+
 ## [0.6.0](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.5.0...v0.6.0) (2024-01-23)
 
 
