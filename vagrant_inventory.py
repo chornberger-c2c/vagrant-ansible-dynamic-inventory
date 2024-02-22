@@ -120,8 +120,6 @@ def get_ssh_config():
 
     return dict((v, get_a_ssh_config(k,v)) for k,v in mapping.items())
 
-
-# get the ssh config for a single box
 def get_a_ssh_config(box_id,box_name):
     """
     Gives back a map of all the machine's ssh configurations
