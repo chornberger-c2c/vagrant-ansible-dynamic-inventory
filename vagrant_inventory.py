@@ -61,6 +61,9 @@ def parse_options():
     global options
     options = parser.parse_args()
 
+    global help
+    help = parser
+
     global mapping
     mapping = {}
 
@@ -87,6 +90,7 @@ def process_options():
         sys.exit(0)
 
     else:
+        help.print_help()
         sys.exit(0)
 
 def list_running_boxes():
