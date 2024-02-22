@@ -44,10 +44,10 @@ def main():
                 ('hostname', 'ansible_host'),
                 ('identityfile', 'ansible_private_key_file'),
                 ('port', 'ansible_port')]
-    
+
     parse_options()
     process_options()
-    
+
 def parse_options():
     """
     Parse command line options
@@ -82,7 +82,7 @@ def process_options():
 
         print(json.dumps({_GROUP: list(mapping.values()), '_meta': meta}, indent=4))
         sys.exit(0)
-    
+
     elif options.host:
         list_running_boxes()
         host_id = list(mapping.keys())[list(mapping.values()).index(options.host)]
