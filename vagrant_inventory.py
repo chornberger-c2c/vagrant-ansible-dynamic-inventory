@@ -6,19 +6,14 @@ vagrant vm(s), and returns it under the host group 'vagrant' with either the
 machine name or - if set to default - the directory name of the Vagrantfile
 as ansible inventory hostname.
 
-# Copyright (C) 2013  Mark Mandel <mark@compoundtheory.com>
-#               2015  Igor Khomyakov <homyakov@gmail.com>
-#               2021  Christopher Hornberger github.com/chornberger-c2c
-#
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+Copyright (C) 2013  Mark Mandel <mark@compoundtheory.com>
+              2015  Igor Khomyakov <homyakov@gmail.com>
+              2021  Christopher Hornberger github.com/chornberger-c2c
+
+GNU General Public License v3.0+ (see LICENSE.md or https://www.gnu.org/licenses/gpl-3.0.txt)
 """
 
 from __future__ import (absolute_import, division, print_function)
-
-#
-# Thanks to the spacewalk.py inventory script for giving me the basic structure
-# of this.
-#
 
 import sys
 import os.path
@@ -32,36 +27,77 @@ from io import StringIO
 from ansible.module_utils._text import to_text
 from paramiko import SSHConfig
 
-MetaClass = type
+def main():
+    """
+    Thanks to the spacewalk.py inventory script for giving me the basic structure
+    of this.
+    """
 
-_GROUP = 'vagrant'  # a default group
-_ssh_to_ansible = [('user', 'ansible_user'),
-                   ('hostname', 'ansible_host'),
-                   ('identityfile', 'ansible_private_key_file'),
-                   ('port', 'ansible_port')]
+    global MetaClass
+    MetaClass = type
 
-# Options
-# ------------------------------
+    global _GROUP
+    _GROUP = 'vagrant'  # a default group
 
-parser = argparse.ArgumentParser(description="")
-parser.add_argument('--list', default=False, dest="list", action="store_true",
-                  help="Produce a JSON consumable grouping of Vagrant servers for Ansible")
-parser.add_argument('--host', default=None, dest="host",
-                  help="Generate additional host specific details for given host for Ansible")
-options = parser.parse_args()
+    global _ssh_to_ansible
+    _ssh_to_ansible = [('user', 'ansible_user'),
+                ('hostname', 'ansible_host'),
+                ('identityfile', 'ansible_private_key_file'),
+                ('port', 'ansible_port')]
 
-#
-# helper functions
-#
-# get all the ssh configs for all boxes in an array of dictionaries.
-# list all the running boxes
+    parse_options()
+    process_options()
 
-mapping = {}
+def parse_options():
+    """
+    Parse command line options
+    """
+
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument('--list', default=False, dest="list", action="store_true",
+                    help="Produce a JSON consumable grouping of Vagrant servers for Ansible")
+    parser.add_argument('--host', default=None, dest="host",
+                    help="Generate additional host specific details for given host for Ansible")
+    global options
+    options = parser.parse_args()
+
+    global help
+    help = parser
+
+    global mapping
+    mapping = {}
+
+def process_options():
+    """
+    List out servers that vagrant has running or print host details
+    """
+
+    if options.list:
+        list_running_boxes()
+        ssh_config = get_ssh_config()
+        meta = defaultdict(dict)
+
+        for host in ssh_config:
+            meta['hostvars'][host] = ssh_config[host]
+
+        print(json.dumps({_GROUP: list(mapping.values()), '_meta': meta}, indent=4))
+        sys.exit(0)
+
+    elif options.host:
+        list_running_boxes()
+        host_id = list(mapping.keys())[list(mapping.values()).index(options.host)]
+        print(json.dumps(get_a_ssh_config(host_id,options.host), indent=4))
+        sys.exit(0)
+
+    else:
+        help.print_help()
+        sys.exit(0)
 
 def list_running_boxes():
     """
-    list all running vagrant boxes
+    List all running vagrant boxes
     """
+
     output = to_text(subprocess.check_output(["vagrant", "global-status", "--prune"])).split('\n')
 
     for line in output:
@@ -83,15 +119,15 @@ def list_running_boxes():
 
 def get_ssh_config():
     """
-    returns the ssh config for a box
+    Returns the ssh config for a box
     """
 
     return dict((v, get_a_ssh_config(k,v)) for k,v in mapping.items())
 
-
-# get the ssh config for a single box
 def get_a_ssh_config(box_id,box_name):
-    """Gives back a map of all the machine's ssh configurations"""
+    """
+    Gives back a map of all the machine's ssh configurations
+    """
 
     output = to_text(subprocess.check_output(["vagrant", "ssh-config", box_id]))
     config = SSHConfig()
@@ -112,30 +148,5 @@ def get_a_ssh_config(box_id,box_name):
 
     return dict((v, host_config[k]) for k, v in _ssh_to_ansible)
 
-
-# List out servers that vagrant has running
-# ------------------------------
-if options.list:
-    list_running_boxes()
-    ssh_config = get_ssh_config()
-    meta = defaultdict(dict)
-
-    for host in ssh_config:
-        meta['hostvars'][host] = ssh_config[host]
-
-    print(json.dumps({_GROUP: list(mapping.values()), '_meta': meta}, indent=4))
-    sys.exit(0)
-
-# Get out the host details
-# ------------------------------
-elif options.host:
-    list_running_boxes()
-    host_id = list(mapping.keys())[list(mapping.values()).index(options.host)]
-    print(json.dumps(get_a_ssh_config(host_id,options.host), indent=4))
-    sys.exit(0)
-
-# Print out help
-# ------------------------------
-else:
-    parser.print_help()
-    sys.exit(0)
+if __name__ == "__main__":
+    main()
