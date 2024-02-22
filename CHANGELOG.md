@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.6.2...v0.7.0) (2024-02-22)
+
+
+### Features
+
+* add help message ([3c773ac](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/3c773ac921ff7f621146eb782e108370e78fe37a))
+* make code more readable ([5ad8f6b](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/commit/5ad8f6b2d3165075504773805890cef5139a61b4))
+
 ### [0.6.2](https://www.github.com/chornberger-c2c/vagrant-ansible-dynamic-inventory/compare/v0.6.1...v0.6.2) (2024-01-25)
 
 
