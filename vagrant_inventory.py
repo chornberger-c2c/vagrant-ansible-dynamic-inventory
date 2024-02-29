@@ -46,7 +46,6 @@ def main():
                 ('port', 'ansible_port')]
 
     parse_options()
-    process_options()
 
 def parse_options():
     """
@@ -58,19 +57,10 @@ def parse_options():
                     help="Produce a JSON consumable grouping of Vagrant servers for Ansible")
     parser.add_argument('--host', default=None, dest="host",
                     help="Generate additional host specific details for given host for Ansible")
-    global options
     options = parser.parse_args()
-
-    global help
-    help = parser
 
     global mapping
     mapping = {}
-
-def process_options():
-    """
-    List out servers that vagrant has running or print host details
-    """
 
     if options.list:
         list_running_boxes()
@@ -90,7 +80,7 @@ def process_options():
         sys.exit(0)
 
     else:
-        help.print_help()
+        parser.print_help()
         sys.exit(0)
 
 def list_running_boxes():
