@@ -36,22 +36,9 @@ def main():
     global MetaClass
     MetaClass = type
 
-    global _GROUP
-    _GROUP = 'vagrant'  # a default group
-
-    global _ssh_to_ansible
-    _ssh_to_ansible = [('user', 'ansible_user'),
-                ('hostname', 'ansible_host'),
-                ('identityfile', 'ansible_private_key_file'),
-                ('port', 'ansible_port')]
-
-    parse_options()
-
-def parse_options():
     """
     Parse command line options
     """
-
     parser = argparse.ArgumentParser(description="")
     parser.add_argument('--list', default=False, dest="list", action="store_true",
                     help="Produce a JSON consumable grouping of Vagrant servers for Ansible")
@@ -61,6 +48,8 @@ def parse_options():
 
     global mapping
     mapping = {}
+
+    _GROUP = 'vagrant'  # a default group
 
     if options.list:
         list_running_boxes()
@@ -118,6 +107,11 @@ def get_a_ssh_config(box_id,box_name):
     """
     Gives back a map of all the machine's ssh configurations
     """
+
+    _ssh_to_ansible = [('user', 'ansible_user'),
+                ('hostname', 'ansible_host'),
+                ('identityfile', 'ansible_private_key_file'),
+                ('port', 'ansible_port')]
 
     output = to_text(subprocess.check_output(["vagrant", "ssh-config", box_id]))
     config = SSHConfig()
