@@ -36,9 +36,7 @@ def main():
     global MetaClass
     MetaClass = type
 
-    """
-    Parse command line options
-    """
+    # Parse command line options
     parser = argparse.ArgumentParser(description="")
     parser.add_argument('--list', default=False, dest="list", action="store_true",
                     help="Produce a JSON consumable grouping of Vagrant servers for Ansible")
